@@ -1,0 +1,8 @@
+node_modules/
+*.log
+.DS_Store
+.env
+.claude/
+.claude.json
+.claude.json.backup
+naming_issues.csv
