@@ -115,13 +115,12 @@ export class KinderpediaTrigger implements INodeType {
 			}
 
 			try {
-				const response = await this.helpers.request({
+				const response = await this.helpers.httpRequest({
 					method: 'GET',
 					url: `${baseUrl}/v1/students`,
 					qs,
 					headers,
 					json: true,
-					useQuerystring: true,
 				});
 
 				const students = Array.isArray(response) ? response : (response['hydra:member'] as IDataObject[]);

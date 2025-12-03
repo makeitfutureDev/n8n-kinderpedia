@@ -1126,7 +1126,7 @@ export class Kinderpedia implements INodeType {
 						let hasMore = true;
 
 						while (hasMore) {
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'GET',
 								url: `${baseUrl}/v1/students`,
 								qs: { page, itemsPerPage },
@@ -1164,7 +1164,7 @@ export class Kinderpedia implements INodeType {
 					// Get One Student
 					if (operation === 'get') {
 						const studentId = this.getNodeParameter('studentId', i) as number;
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'GET',
 							url: `${baseUrl}/v1/students/${studentId}`,
 							headers,
@@ -1191,7 +1191,7 @@ export class Kinderpedia implements INodeType {
 							groupId,
 						};
 
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'POST',
 							url: `${baseUrl}/v1/students`,
 							headers,
@@ -1229,13 +1229,12 @@ export class Kinderpedia implements INodeType {
 								qs['includeContext[]'] = filters.includeContext;
 							}
 
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'GET',
 								url: `${baseUrl}/v1/students`,
 								qs,
 								headers,
 								json: true,
-								useQuerystring: true,
 							});
 
 							const members = Array.isArray(response) ? response : (response['hydra:member'] as IDataObject[]);
@@ -1275,7 +1274,7 @@ export class Kinderpedia implements INodeType {
 							body.birthdate = new Date(body.birthdate as string).toISOString().split('T')[0];
 						}
 
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'PATCH',
 							url: `${baseUrl}/v1/students/${studentId}`,
 							headers,
@@ -1301,7 +1300,7 @@ export class Kinderpedia implements INodeType {
 						let hasMore = true;
 
 						while (hasMore) {
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'GET',
 								url: `${baseUrl}/v1/parents`,
 								qs: { page, itemsPerPage },
@@ -1339,7 +1338,7 @@ export class Kinderpedia implements INodeType {
 					// Get One Parent
 					if (operation === 'get') {
 						const parentId = this.getNodeParameter('parentId', i) as number;
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'GET',
 							url: `${baseUrl}/v1/parents/${parentId}`,
 							headers,
@@ -1372,7 +1371,7 @@ export class Kinderpedia implements INodeType {
 							familyPickup,
 						};
 
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'POST',
 							url: `${baseUrl}/v1/parents`,
 							headers,
@@ -1398,7 +1397,7 @@ export class Kinderpedia implements INodeType {
 						let hasMore = true;
 
 						while (hasMore) {
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'GET',
 								url: `${baseUrl}/v1/groups`,
 								qs: { page, itemsPerPage },
@@ -1436,7 +1435,7 @@ export class Kinderpedia implements INodeType {
 					// Get One Group
 					if (operation === 'get') {
 						const groupId = this.getNodeParameter('groupId', i) as number;
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'GET',
 							url: `${baseUrl}/v1/groups/${groupId}`,
 							headers,
@@ -1458,7 +1457,7 @@ export class Kinderpedia implements INodeType {
 						let hasMore = true;
 
 						while (hasMore) {
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'GET',
 								url: `${baseUrl}/v1/eav_attributes`,
 								qs: {
@@ -1506,7 +1505,7 @@ export class Kinderpedia implements INodeType {
 						let url: string;
 						if (entityId && entityId !== 0) {
 							url = `${baseUrl}/v1/${entityType}/${entityId}?includeContext[]=${includeContext}`;
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'GET',
 								url,
 								headers,
@@ -1521,7 +1520,7 @@ export class Kinderpedia implements INodeType {
 
 							while (hasMore) {
 								url = `${baseUrl}/v1/${entityType}?includeContext[]=${includeContext}&page=${page}&itemsPerPage=${itemsPerPage}`;
-								const response = await this.helpers.request({
+								const response = await this.helpers.httpRequest({
 									method: 'GET',
 									url,
 									headers,
@@ -1569,7 +1568,7 @@ export class Kinderpedia implements INodeType {
 							value,
 						};
 
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'POST',
 							url: `${baseUrl}/v1/eav_values`,
 							headers,
@@ -1617,7 +1616,7 @@ export class Kinderpedia implements INodeType {
 								value,
 							};
 
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'PATCH',
 								url: `${baseUrl}/v1/eav_values`,
 								headers,
@@ -1646,7 +1645,7 @@ export class Kinderpedia implements INodeType {
 						}
 
 						try {
-							await this.helpers.request({
+							await this.helpers.httpRequest({
 								method: 'DELETE',
 								url: `${baseUrl}/v1/eav_values`,
 								qs: {
@@ -1684,7 +1683,7 @@ export class Kinderpedia implements INodeType {
 						let hasMore = true;
 
 						while (hasMore) {
-							const response = await this.helpers.request({
+							const response = await this.helpers.httpRequest({
 								method: 'GET',
 								url: `${baseUrl}/v1/families`,
 								qs: { page, itemsPerPage },
@@ -1722,7 +1721,7 @@ export class Kinderpedia implements INodeType {
 					// Get One Family
 					if (operation === 'get') {
 						const familyId = this.getNodeParameter('familyId', i) as number;
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'GET',
 							url: `${baseUrl}/v1/families/${familyId}`,
 							headers,
@@ -1761,7 +1760,7 @@ export class Kinderpedia implements INodeType {
 
 				let response;
 				try {
-					response = await this.helpers.request({
+					response = await this.helpers.httpRequest({
 						method: 'GET',
 						url: `${baseUrl}/v1/groups`,
 						qs: {
@@ -1812,7 +1811,7 @@ export class Kinderpedia implements INodeType {
 
 				let response;
 				try {
-					response = await this.helpers.request({
+					response = await this.helpers.httpRequest({
 						method: 'GET',
 						url: `${baseUrl}/v1/families`,
 						qs: {
@@ -1863,7 +1862,7 @@ export class Kinderpedia implements INodeType {
 
 				let response;
 				try {
-					response = await this.helpers.request({
+					response = await this.helpers.httpRequest({
 						method: 'GET',
 						url: `${baseUrl}/v1/parents`,
 						qs: {
@@ -1914,7 +1913,7 @@ export class Kinderpedia implements INodeType {
 
 				let response;
 				try {
-					response = await this.helpers.request({
+					response = await this.helpers.httpRequest({
 						method: 'GET',
 						url: `${baseUrl}/v1/students`,
 						qs: {
@@ -1981,7 +1980,7 @@ export class Kinderpedia implements INodeType {
 
 				try {
 					while (hasMore) {
-						const response = await this.helpers.request({
+						const response = await this.helpers.httpRequest({
 							method: 'GET',
 							url: `${baseUrl}/v1/eav_attributes`,
 							qs: {

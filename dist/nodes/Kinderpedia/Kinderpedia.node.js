@@ -1077,7 +1077,7 @@ class Kinderpedia {
                     };
                     let response;
                     try {
-                        response = await this.helpers.request({
+                        response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/groups`,
                             qs: {
@@ -1123,7 +1123,7 @@ class Kinderpedia {
                     };
                     let response;
                     try {
-                        response = await this.helpers.request({
+                        response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/families`,
                             qs: {
@@ -1169,7 +1169,7 @@ class Kinderpedia {
                     };
                     let response;
                     try {
-                        response = await this.helpers.request({
+                        response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/parents`,
                             qs: {
@@ -1215,7 +1215,7 @@ class Kinderpedia {
                     };
                     let response;
                     try {
-                        response = await this.helpers.request({
+                        response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/students`,
                             qs: {
@@ -1274,7 +1274,7 @@ class Kinderpedia {
                     let hasMore = true;
                     try {
                         while (hasMore) {
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url: `${baseUrl}/v1/eav_attributes`,
                                 qs: {
@@ -1353,7 +1353,7 @@ class Kinderpedia {
                         let page = 1;
                         let hasMore = true;
                         while (hasMore) {
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url: `${baseUrl}/v1/students`,
                                 qs: { page, itemsPerPage },
@@ -1387,7 +1387,7 @@ class Kinderpedia {
                     // Get One Student
                     if (operation === 'get') {
                         const studentId = this.getNodeParameter('studentId', i);
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/students/${studentId}`,
                             headers,
@@ -1411,7 +1411,7 @@ class Kinderpedia {
                             familyId,
                             groupId,
                         };
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'POST',
                             url: `${baseUrl}/v1/students`,
                             headers,
@@ -1444,13 +1444,12 @@ class Kinderpedia {
                                 // Pass each includeContext value as a separate parameter
                                 qs['includeContext[]'] = filters.includeContext;
                             }
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url: `${baseUrl}/v1/students`,
                                 qs,
                                 headers,
                                 json: true,
-                                useQuerystring: true,
                             });
                             const members = Array.isArray(response) ? response : response['hydra:member'];
                             if (!members || members.length === 0) {
@@ -1483,7 +1482,7 @@ class Kinderpedia {
                         if (body.birthdate) {
                             body.birthdate = new Date(body.birthdate).toISOString().split('T')[0];
                         }
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'PATCH',
                             url: `${baseUrl}/v1/students/${studentId}`,
                             headers,
@@ -1506,7 +1505,7 @@ class Kinderpedia {
                         let page = 1;
                         let hasMore = true;
                         while (hasMore) {
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url: `${baseUrl}/v1/parents`,
                                 qs: { page, itemsPerPage },
@@ -1540,7 +1539,7 @@ class Kinderpedia {
                     // Get One Parent
                     if (operation === 'get') {
                         const parentId = this.getNodeParameter('parentId', i);
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/parents/${parentId}`,
                             headers,
@@ -1570,7 +1569,7 @@ class Kinderpedia {
                             familyMainAccount,
                             familyPickup,
                         };
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'POST',
                             url: `${baseUrl}/v1/parents`,
                             headers,
@@ -1593,7 +1592,7 @@ class Kinderpedia {
                         let page = 1;
                         let hasMore = true;
                         while (hasMore) {
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url: `${baseUrl}/v1/groups`,
                                 qs: { page, itemsPerPage },
@@ -1627,7 +1626,7 @@ class Kinderpedia {
                     // Get One Group
                     if (operation === 'get') {
                         const groupId = this.getNodeParameter('groupId', i);
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/groups/${groupId}`,
                             headers,
@@ -1646,7 +1645,7 @@ class Kinderpedia {
                         let page = 1;
                         let hasMore = true;
                         while (hasMore) {
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url: `${baseUrl}/v1/eav_attributes`,
                                 qs: {
@@ -1689,7 +1688,7 @@ class Kinderpedia {
                         let url;
                         if (entityId && entityId !== 0) {
                             url = `${baseUrl}/v1/${entityType}/${entityId}?includeContext[]=${includeContext}`;
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url,
                                 headers,
@@ -1704,7 +1703,7 @@ class Kinderpedia {
                             const itemsPerPage = 30;
                             while (hasMore) {
                                 url = `${baseUrl}/v1/${entityType}?includeContext[]=${includeContext}&page=${page}&itemsPerPage=${itemsPerPage}`;
-                                const response = await this.helpers.request({
+                                const response = await this.helpers.httpRequest({
                                     method: 'GET',
                                     url,
                                     headers,
@@ -1744,7 +1743,7 @@ class Kinderpedia {
                             entityId,
                             value,
                         };
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'POST',
                             url: `${baseUrl}/v1/eav_values`,
                             headers,
@@ -1783,7 +1782,7 @@ class Kinderpedia {
                                 entityId,
                                 value,
                             };
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'PATCH',
                                 url: `${baseUrl}/v1/eav_values`,
                                 headers,
@@ -1807,7 +1806,7 @@ class Kinderpedia {
                             throw new n8n_workflow_1.NodeOperationError(this.getNode(), 'Entity ID is required and must be a valid ID', { itemIndex: i });
                         }
                         try {
-                            await this.helpers.request({
+                            await this.helpers.httpRequest({
                                 method: 'DELETE',
                                 url: `${baseUrl}/v1/eav_values`,
                                 qs: {
@@ -1843,7 +1842,7 @@ class Kinderpedia {
                         let page = 1;
                         let hasMore = true;
                         while (hasMore) {
-                            const response = await this.helpers.request({
+                            const response = await this.helpers.httpRequest({
                                 method: 'GET',
                                 url: `${baseUrl}/v1/families`,
                                 qs: { page, itemsPerPage },
@@ -1877,7 +1876,7 @@ class Kinderpedia {
                     // Get One Family
                     if (operation === 'get') {
                         const familyId = this.getNodeParameter('familyId', i);
-                        const response = await this.helpers.request({
+                        const response = await this.helpers.httpRequest({
                             method: 'GET',
                             url: `${baseUrl}/v1/families/${familyId}`,
                             headers,
